@@ -28,7 +28,7 @@ function submitIssue(e) {
 const fetchIssues = () => {
 	const issues = JSON.parse(localStorage.getItem('issues'));
 	const issuesList = document.getElementById('issuesList');
-	issuesList.innerHTML = '';
+	issuesList.textContent = '';
 
 	for (var i = 0; i < issues.length; i++) {
 		const { id, description, severity, assignedTo, status } = issues[i];
@@ -45,7 +45,7 @@ const fetchIssues = () => {
 	}
 };
 
-// close issue
+//local storage & ui close issue
 const closeIssue = id => {
 	const issues = JSON.parse(localStorage.getItem('issues'));
 	const currentIssue = issues.find(issue => parseInt(issue.id) === id);
@@ -53,4 +53,13 @@ const closeIssue = id => {
 	currentIssue.status = 'Closed';
 	localStorage.setItem('issues', JSON.stringify(issues));
 	fetchIssues();
+};
+
+//local storage & delete issue
+const deleteIssue = (event, id) => {
+	const issues = JSON.parse(localStorage.getItem('issues'));
+	const remainingIssues = issues.filter(issue => parseInt(issue.id) !== id);
+	// console.log(remainingIssues);
+	localStorage.setItem('issues', JSON.stringify(remainingIssues));
+	event.target.parentElement.remove();
 };
